@@ -1,0 +1,243 @@
+{
+    "setup" : [
+        {
+            "name" : "name",
+            "nameTh" : "ชื่อ",
+            "type" : "text",
+            "include" : false,
+            "width" : 12
+        },
+        {
+            "name" : "birthDay",
+            "nameTh" : "วันเกิด",
+            "type" : "choice",
+            "width" : 6,
+            "choice" :
+            [
+                {
+                    "value" : "monday",
+                    "valueTh" : "วันจันทร์"
+                },
+                {
+                    "value" : "thuesday",
+                    "valueTh" : "วันอังคาร"
+                },
+                {
+                    "value" : "wednesday",
+                    "valueTh" : "วันพุธ"
+                },
+                {
+                    "value" : "thursday",
+                    "valueTh" : "วันพฤหัสบดี"
+                },
+                {
+                    "value" : "friday",
+                    "valueTh" : "วันศุกร์"
+                },
+                {
+                    "value" : "saturday",
+                    "valueTh" : "วันเสาร์"
+                },
+                {
+                    "value" : "sunday",
+                    "valueTh" : "วันอาทิตย์"
+                }
+            ]
+        },
+        {
+            "name" : "birthMonth",
+            "nameTh" : "เดือนเกิด",
+            "type" : "choice",
+            "width" : 6,
+            "choice" :
+            [
+                {
+                    "value" : "january",
+                    "valueTh" : "มกราคม"
+                },
+                {
+                    "value" : "february",
+                    "valueTh" : "กุมภาพันธ์"
+                },
+                {
+                    "value" : "march",
+                    "valueTh" : "มีนาคม"
+                },
+                {
+                    "value" : "april",
+                    "valueTh" : "เมษายน"
+                },
+                {
+                    "value" : "may",
+                    "valueTh" : "พฤษภาคม"
+                },
+                {
+                    "value" : "june",
+                    "valueTh" : "มิถุนายน"
+                },
+                {
+                    "value" : "july",
+                    "valueTh" : "กรกฏาคม"
+                },
+                {
+                    "value" : "august",
+                    "valueTh" : "สิงหาคม"
+                },
+                {
+                    "value" : "september",
+                    "valueTh" : "กันยายน"
+                },
+                {
+                    "value" : "october",
+                    "valueTh" : "ตุลาคม"
+                },
+                {
+                    "value" : "november",
+                    "valueTh" : "พฤศจิกายน"
+                },
+                {
+                    "value" : "december",
+                    "valueTh" : "ธันวาคม"
+                }
+            ]
+        },
+        {
+            "name" : "color",
+            "nameTh" : "สีที่ชอบ",
+            "type" : "choice",
+            "width" : 4,
+            "choice" :
+            [
+                {
+                    "value" : "purple",
+                    "valueTh" : "ม่วง"
+                },
+                {
+                    "value" : "cyan",
+                    "valueTh" : "คราม"
+                },
+                {
+                    "value" : "blue",
+                    "valueTh" : "น้ำเงิน"
+                },
+                {
+                    "value" : "green",
+                    "valueTh" : "เขียว"
+                },
+                {
+                    "value" : "yellow",
+                    "valueTh" : "เหลือง"
+                },
+                {
+                    "value" : "orange",
+                    "valueTh" : "ส้ม"
+                },
+                {
+                    "value" : "red",
+                    "valueTh" : "แดง"
+                },
+                {
+                    "value" : "brown",
+                    "valueTh" : "นำ้ตาล"
+                },
+                {
+                    "value" : "pink",
+                    "valueTh" : "ชมพู"
+                },
+                {
+                    "value" : "white",
+                    "valueTh" : "ขาว"
+                },
+                {
+                    "value" : "black",
+                    "valueTh" : "ดำ"
+                },
+                {
+                    "value" : "grey",
+                    "valueTh" : "เทา"
+                }
+            ]
+        },
+        {
+            "name" : "animal",
+            "nameTh" : "สัตว์ที่ชอบ",
+            "type" : "choice",
+            "width" : 4,
+            "choice" :
+            [
+                {
+                    "value" : "dog",
+                    "valueTh" : "หมา"
+                },
+                {
+                    "value" : "cat",
+                    "valueTh" : "แมว"
+                },
+                {
+                    "value" : "bird",
+                    "valueTh" : "นก"
+                },
+                {
+                    "value" : "rat",
+                    "valueTh" : "หนู"
+                }
+            ]
+        },
+        {
+            "name" : "sex",
+            "nameTh" : "เพศ",
+            "type" : "choice",
+            "width" : 4,
+            "choice" :
+            [
+                {
+                    "value" : "male",
+                    "valueTh" : "ชาย"
+                },
+                {
+                    "value" : "female",
+                    "valueTh" : "หญิง"
+                }
+            ]
+        },
+        {
+            "name" : "number",
+            "nameTh" : "เลขที่ชอบ",
+            "type" : "choice",
+            "width" : 6,
+            "choice" :
+            [
+                {
+                    "value" : 0
+                },
+                {
+                    "value" : 1
+                },
+                {
+                    "value" : 2
+                },
+                {
+                    "value" : 3
+                },
+                {
+                    "value" : 4
+                },
+                {
+                    "value" : 5
+                },
+                {
+                    "value" : 6
+                },
+                {
+                    "value" : 7
+                },
+                {
+                    "value" : 8
+                },
+                {
+                    "value" : 9
+                }
+            ]
+        }
+    ]
+}
