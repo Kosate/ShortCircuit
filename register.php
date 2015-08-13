@@ -97,6 +97,39 @@
         </div>
         <div>
 		</div>
+        
+        <div class="modal fade" id="alerter">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Alerter</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        
+        <div class="modal fade" id="confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirm</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
@@ -104,6 +137,20 @@
 
             var config = {};
             var curData = <?= $curData ?>;
+            
+            function show_alerter( txt, callback ) {
+                if( typeof callback != "undefined" && callback != null ) {
+                    $("#alerter button").click( callback );
+                }
+                $("#alerter .modal-body").html(txt);
+                $("#alerter").modal('show');
+            }
+            
+            function show_confirm( txt, callback ) {
+                $("#confirm .modal-footer .btn-primary").click( callback );
+                $("#confirm .modal-body").html(txt);
+                $("#confirm").modal('show');
+            }
 
             $(function() {
                 $.ajax({
@@ -111,8 +158,9 @@
                     data : "type=register_structure",
                     dataType : "json",
                     error: function() {
-                        alert("There are some problem with internet connection");
-                        window.location.reload();
+                        show_alerter("อินเตอร์เน็ตของคุณมีปัญหา", function() {
+                            window.location.reload();
+                        });
                     },
                     success : function(res) {
                         config = res;
@@ -166,32 +214,36 @@
                         }
                     });
                     if( isEmpty ) {
-                        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-                    } else if( confirm("ต้องการยืนยันข้อมูลใช่หรือไม่") ) {
-
-                        var rawData = {};
-                        for( var i = 0; i < config.length; i++ ) {
-                            rawData[config[i].name] = $("#form_" + config[i].name).val();
-                        }
-
-
-                        $.ajax({
-                            url : "flow.php",
-                            data : "type=update_each_info&data="+encodeURIComponent(JSON.stringify(rawData)),
-                            type : "get",
-                            success : function(res) {
-                                console.log("ok");
-                                if( res == "ok" ) {
-                                    window.location.href = "play.php?id=<?= $hash ?>";
-                                } else {
-                                    alert("บันทึกข้อมูลไม่สมบูรณ์");
-                                }
-                            },
-                            error : function() {
-                                alert("อินเตอร์เน็ตมีปัญหา");
+                        show_alerter("กรุณากรอกข้อมูลให้ครบถ้วน");
+                    } else {
+                        
+                        show_confirm(
+                          'คุณต้องการจะยืนยันข้อมูลนี้ใช่หรือไม่',
+                          function() {
+                            var rawData = {};
+                            for( var i = 0; i < config.length; i++ ) {
+                                rawData[config[i].name] = $("#form_" + config[i].name).val();
                             }
-                        });
-
+    
+    
+                            $.ajax({
+                                url : "flow.php",
+                                data : "type=update_each_info&data="+encodeURIComponent(JSON.stringify(rawData)),
+                                type : "get",
+                                success : function(res) {
+                                    console.log("ok");
+                                    if( res == "ok" ) {
+                                        window.location.href = "play.php?id=<?= $hash ?>";
+                                    } else {
+                                        show_alerter("บันทึกข้อมูลไม่สมบูรณ์");
+                                    }
+                                },
+                                error : function() {
+                                    show_alerter("อินเตอร์เน็ตมีปัญหา");
+                                }
+                            });
+                          }  
+                        );
                     }
                 });
             });
