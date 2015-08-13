@@ -2,8 +2,8 @@
 	{
 		"name" : "1",
 		"data" : {
-			"type" : "text",
-			"text" : ["1"]
+			"type" : "html",
+			"text" : ["<span style='font-size:4em;'>1</span>"]
 		}
 	},
 	{

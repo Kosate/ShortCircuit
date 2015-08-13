@@ -27,8 +27,8 @@
         $q = $q->fetch_assoc();
         $curData = $q["info"];
         if( $curData != "{}" ) {
-            header("Location: play.php?id=".$_SESSION["curHash"]);
-            die();
+            //header("Location: play.php?id=".$_SESSION["curHash"]);
+            //die();
         }
     }
 ?>
@@ -184,7 +184,7 @@
                                     if( typeof res[i].choice[j].valueTh != "undefined" ) {
                                         value = res[i].choice[j].valueTh;
                                     }
-                                    enter += '<option>'+value+'</option>';
+                                    enter += '<option name="'+res[i].choice[j].value+'">'+value+'</option>';
                                 }
                                 enter += '</select>'
                             }
@@ -199,7 +199,13 @@
 
                         for( var i = 0; i < res.length; i++ ) {
                             if( typeof curData[res[i].name] != "undefined" ) {
-                                $("#form_" + res[i].name).val( curData[res[i].name] );
+                                if( res[i].type == 'choice' ) {
+                                    $('#form_' + res[i].name)
+                                        .find('option[name="'+curData[res[i].name]+'"]')
+                                        .attr('selected','selected');   
+                                } else {
+                                    $("#form_" + res[i].name).val( curData[res[i].name] );
+                                }
                             }
                         }
                     }
@@ -220,9 +226,18 @@
                         show_confirm(
                           'คุณต้องการจะยืนยันข้อมูลนี้ใช่หรือไม่',
                           function() {
+                            
+                            $('#confirm').modal('hide');
+                              
                             var rawData = {};
                             for( var i = 0; i < config.length; i++ ) {
-                                rawData[config[i].name] = $("#form_" + config[i].name).val();
+                                if( config[i].type == 'choice' ) {
+                                    var v = $("#form_" + config[i].name).val();
+                                    console.log(v);
+                                    rawData[config[i].name] = $("#form_" + config[i].name).find('option:contains("'+v+'")').attr('name');
+                                } else {
+                                    rawData[config[i].name] = $("#form_" + config[i].name).val();
+                                }
                             }
     
     
@@ -235,6 +250,7 @@
                                     if( res == "ok" ) {
                                         window.location.href = "play.php?id=<?= $hash ?>";
                                     } else {
+                                        console.log(res);
                                         show_alerter("บันทึกข้อมูลไม่สมบูรณ์");
                                     }
                                 },

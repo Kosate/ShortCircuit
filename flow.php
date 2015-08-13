@@ -3,6 +3,24 @@
     require('connect.php');
 
     $content = [];
+    $colorSet = [
+        "#e52416",
+        "#ea1c62",
+        "#600a6f",
+        "#42109b",
+        "#2196F3",
+        "#068479",
+        "#569123",
+        "#ffc73a",
+        "#ff8912",
+        "#4d1c0a",
+        "#f849c2"
+    ];
+    
+    function getColor($id) {
+        global $colorSet;
+        return $colorSet[ intval($id) % count($colorSet) ];
+    }
 
     function getFileContent( $fileName ) {
         global $content;
@@ -26,6 +44,16 @@
             die();
 
         } else if( $_GET['type'] == 'next_id' ) {
+            
+            
+            $oldHash = getHashStorage();
+            if( $oldHash != "-1" ) {
+                $q = $connect->query("select hash from shortcircuit_each_info where hash='$oldHash'");
+                if( $q->num_rows > 0 ) {
+                    die(json_encode(array('id' => $oldHash)));
+                }
+            }
+            
             $q = $connect->query("select count(*) from shortcircuit_each_info");
             $q = $q->fetch_assoc();
             $q = intval( $q['count(*)'] ) + 1;
@@ -37,11 +65,33 @@
         } else if( $_GET['type'] == 'update_each_info' ) {
             $hash = getHashStorage();
             if( $hash == "-1" ) die("-1");
-
-            if( $connect->query("update shortcircuit_each_info set info='".$_GET["data"]."' where hash='$hash'") ) {
-                die("ok");
+            
+            if( $data = json_decode($_GET['data'], true) ) {
+                getFileContent('./data/structure.json');
+                $clustering = $content;
+                $data['_color'] = array();
+                
+                $i = 0;
+                foreach( $data as $key => $value ) {
+                    $i++;
+                    foreach($clustering['setup'] as $eachCluster) {
+                        if( $eachCluster['name'] == $key ) {
+                            if( $eachCluster['type'] == 'choice' ) {
+                                for($j = 0; $j < count($eachCluster['choice']); $j++) {
+                                    if( $eachCluster['choice'][$j]['value'] == $value ) {
+                                        $data["_color"][$key] = getColor($j+$i*2);
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                if( $connect->query("update shortcircuit_each_info set info='".json_encode($data, JSON_UNESCAPED_UNICODE)."' where hash='$hash'") ) {
+                    die("ok");
+                }    
             }
-
         }
     }
     printf('-1');

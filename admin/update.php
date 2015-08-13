@@ -15,20 +15,6 @@
 	$admin = getFileContent('../data/admin_inject.json');
 	$current = getFileContent('../data/current.json');
 	
-	$color = [
-		"#F44336",
-		"#E91E63",
-		"#9C27B0",
-		"#673AB7",
-		"#3F51B5",
-		"#2196F3",
-		"#009688",
-		"#689F38",
-		"#FBC02D",
-		"#E65100",
-		"#795548"
-	];
-	
 	if( $_GET['name'] == 'controller' ) {
 		$current['state'] = $_GET['state'];
 		if( $_GET['state'] == 'admin' ) {
@@ -42,7 +28,7 @@
 			$current['data'] = $_GET['type'];
 		} else {
 			$current['data'] = array();
-			unset($current['data']);
+			unset($current['data']);	
 		}
 	} else if( $_GET['name'] == 'time' ) {
 		$current['updateTime'] = $_GET['val'];

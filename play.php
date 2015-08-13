@@ -44,12 +44,13 @@
                 padding: 0;
             }
             body {
-                font-family : 'Roboto', elvatica, Arial, sans-serif;
+                font-family : 'Roboto', 'thaisans_neue_light', elvatica, Arial, sans-serif;
                 background: #fdfdfd;
                 color: #111;
             }
             #show-text {
                 position: fixed;
+                text-align: center;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
@@ -60,7 +61,6 @@
 	</head>
 	<body>
         <div id="show-text">
-            5555
         </div>
 
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -70,7 +70,65 @@
             var intervalHandle;
             var refreshTime = 10000;
             var randomToken = Math.floor(Math.random()*1000);
+            var randomScreenInterval;
             var currentData = <?= $q['info'] ?>;
+            
+            var colorSet = colorSet = [
+                "#e52416",
+                "#ea1c62",
+                "#600a6f",
+                "#42109b",
+                "#2196F3",
+                "#068479",
+                "#569123",
+                "#ffc73a",
+                "#ff8912",
+                "#4d1c0a",
+                "#f849c2"
+            ];
+            
+            function short(obj) {
+                clearInterval(randomScreenInterval);
+                
+                if( obj.state == 'random' ) {
+                    randomScreenInterval = setInterval(
+                        function() {
+                            $('body').css('background', colorSet[Math.floor(Math.random()*colorSet.length)]);    
+                        },
+                        100  
+                    );
+                } else {
+                    $('body').css('background','#fdfdfd');
+                }
+                
+                $('#show-text').html('');
+                
+                if( obj.state == 'waiting' ) {
+                    $('#show-text').html('กรุณาอย่าเพิ่งปิดหน้านี้<br>แต่สามารถ Sleep ไว้ชั่วคราวได้ หากคุณใช้โทรศัพท์');
+                }
+                
+                if( obj.state == 'admin' ) {
+                    if( obj.data.type == 'text' || obj.data.type == 'html' ) {
+                        if( obj.data.type == 'text' )
+                            $('#show-text').text( obj.data.text[ randomToken % obj.data.text.length ] );
+                        else
+                            $('#show-text').html( obj.data.text[ randomToken % obj.data.text.length ] );
+                        
+                        if( obj.data.fontColor != null )
+                            $('#show-text').css('color', obj.data.fontColor[ randomToken % obj.data.fontColor.length ] );
+                        if( obj.data.backgroundColor != null )
+                            $('body').css('background', obj.data.backgroundColor[ randomToken % obj.data.backgroundColor.length ] );
+                    }
+                } else {
+                    $('body').css('background','#fdfdfd');
+                }
+                
+                if( obj.state == 'clustering' ) {
+                    $('body').css('background', currentData['_color'][obj.data] );
+                } else {
+                    $('body').css('background', '#fdfdfd');
+                }
+            }
             
             function fetchData() {
                 $.ajax({
@@ -81,7 +139,7 @@
                    },
                    success : function(res) {
                        
-                       $("#show-text").text(res.state);
+                       short(res);
                        refreshTime = res.updateTime * 1000;
                        
                        clearTimeout(intervalHandle);

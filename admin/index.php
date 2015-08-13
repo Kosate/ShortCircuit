@@ -103,7 +103,15 @@
             <div class="panel panel-default">
               <div class="panel-heading">Update Time</div>
               <div class="panel-body container-fluid">
-                  <div class="col-xs-6 col-sm-4">
+                  <div class="col-xs-6 col-sm-3">
+                      <div class="ratio">
+                      <label>
+                          <input type="radio" name="time" value="0.5">
+                          &nbsp;<span style="font-weight:300;">0.5s</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
                       <div class="ratio">
                       <label>
                           <input type="radio" name="time" value="1">
@@ -111,7 +119,23 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-xs-6 col-sm-4">
+                  <div class="col-xs-6 col-sm-3">
+                      <div class="ratio">
+                      <label>
+                          <input type="radio" name="time" value="2">
+                          &nbsp;<span style="font-weight:300;">2s</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
+                      <div class="ratio">
+                      <label>
+                          <input type="radio" name="time" value="3">
+                          &nbsp;<span style="font-weight:300;">3s</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
                       <div class="ratio">
                       <label>
                           <input type="radio" name="time" value="5">
@@ -119,7 +143,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-xs-6 col-sm-4">
+                  <div class="col-xs-6 col-sm-3">
                       <div class="ratio">
                       <label>
                           <input type="radio" name="time" value="10">
@@ -129,8 +153,6 @@
                   </div>
               </div>
             </div>
-            
-            <div class="btn btn-lg btn-primary">Inject</div>
         </div>
 
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>

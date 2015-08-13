@@ -11,4 +11,6 @@
         $password,
         $dbName
     ) or die("MySQL error ".mysqli_error($connect));
+    
+    $connect->set_charset('utf8');
 ?>
