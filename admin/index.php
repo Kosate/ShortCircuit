@@ -63,6 +63,12 @@
               <div class="panel-body container-fluid" id="clusteringController">
               </div>
             </div>
+            
+            <div class="panel panel-default">
+              <div class="panel-heading">Clustering</div>
+              <div class="panel-body container-fluid" id="adminInjectController">
+              </div>
+            </div>
 
             <div class="panel panel-default">
               <div class="panel-heading">Default</div>
@@ -70,7 +76,7 @@
                   <div class="col-xs-6 col-sm-4">
                       <div class="ratio">
                       <label>
-                          <input type="radio" name="controller" value="waiting" checked="checked">
+                          <input type="radio" name="controller" value="waiting">
                           &nbsp;<span style="font-weight:300;">Waiting</span>
                       </label>
                     </div>
@@ -100,7 +106,7 @@
                   <div class="col-xs-6 col-sm-4">
                       <div class="ratio">
                       <label>
-                          <input type="radio" name="time" value="1" checked="checked">
+                          <input type="radio" name="time" value="1">
                           &nbsp;<span style="font-weight:300;">1s</span>
                       </label>
                     </div>
@@ -123,6 +129,8 @@
                   </div>
               </div>
             </div>
+            
+            <div class="btn btn-lg btn-primary">Inject</div>
         </div>
 
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -130,8 +138,40 @@
         <script>
 
             var clustering;
+            var adminInject;
+            
+            function attachEventToRadio() {
+                $("input[type='radio']").click(function($this) {
+                    $this = $($this.target);
+                    
+                    if( $this.attr("name") == "controller" ) {
+                        var types = "";
+                        var subType = "";
+                        var val = $this.val();
+                        
+                        if( val.indexOf("_") == -1 ) {
+                            types = val;
+                        } else {
+                            types = val.split("_")[0];
+                            subType = val.split("_")[1];
+                        }
+                        $.get(
+                            'update.php',
+                            'adminToken=cf1a44&name=controller&state='+types+"&type="+subType
+                        );
+                    } else if( $this.attr("name") == "time" ) {
+                        $.get(
+                            'update.php',
+                            'adminToken=cf1a44&name=time&val='+$this.val()
+                        );
+                    }
+                    
+                    console.log($this);
+                });
+            }
 
             $(function() {
+                
                 $.ajax({
                     url : "../flow.php",
                     data : "type=register_structure",
@@ -159,6 +199,40 @@
                         }
 
                         $("#clusteringController").html($("<div class='row'>").html(enter));
+                        attachEventToRadio();
+                        $("input[name='controller'][value='default']").click();
+                    }
+                });
+                
+                $.ajax({
+                    url : "../data/admin_inject.json",
+                    dataType : "json",
+                    error: function() {
+                        alert("Admin inject error");
+                    },
+                    success : function(res) {
+                        adminInject = res;
+
+                        var enter = "";
+                        for( var i = 0; i < res.length; i++ ) {
+
+                            enter += '' +
+                            '<div class="col-xs-6 col-sm-4">' +
+                                '<div class="ratio">' +
+                                    '<label><input type="radio" name="controller" value="admin_'+res[i].name+'">' +
+                                    '&nbsp;<span style="font-weight:300;">' + res[i].name + '</span></label>' +
+                                '</div>';
+
+
+                            enter += '' +
+                            '</div>';
+
+                        }
+
+                        $("#adminInjectController").html($("<div class='row'>").html(enter));
+                        
+                        attachEventToRadio();
+                        $("input[name='time'][value='1']").click();
                     }
                 });
             });

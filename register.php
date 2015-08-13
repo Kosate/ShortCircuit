@@ -9,7 +9,6 @@
     }
 
     if( !isset($_GET["id"]) ) {
-        print 5555;
         if( isset($_SESSION["curHash"]) && strlen($_SESSION["curHash"]) != 0 ) {
             header("Location: register.php?id=".$_SESSION["curHash"]);
             die();
@@ -27,8 +26,9 @@
         $_SESSION["curHash"] = $hash;
         $q = $q->fetch_assoc();
         $curData = $q["info"];
-        if( $curData == "{}" ) {
-            //redirect to play when complete registered
+        if( $curData != "{}" ) {
+            header("Location: play.php?id=".$_SESSION["curHash"]);
+            die();
         }
     }
 ?>
