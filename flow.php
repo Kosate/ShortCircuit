@@ -67,7 +67,7 @@
                             if( $eachCluster['type'] == 'choice' ) {
                                 for($j = 0; $j < count($eachCluster['choice']); $j++) {
                                     if( $eachCluster['choice'][$j]['value'] == $value ) {
-                                        $data["_color"][$key] = getColor($j+$i*2);
+                                        $data["_color"][md5($key)] = getColor($j+$i*2);
                                         break;
                                     }
                                 }

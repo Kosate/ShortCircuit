@@ -17,24 +17,20 @@
                 background: #fdfdfd;
                 color: #111;
             }
-            .head-title {
+            .container {
                 position: fixed;
-                top : 30%;
+                text-align: center;
+                top: 50%;
                 left: 50%;
-                width: 200px;
-                margin-left: -100px;
+                transform: translate(-50%, -50%);
+            }
+            .head-title {
                 text-align: center;
                 font-size: 3em;
                 font-weight: 100;
             }
             .register-btn {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                width: 240px;
-                height: 1.2em;
-                margin-left: -120px;
-                margin-top: -0.6em;
+                margin-top:40px;
                 font-size: 20px;
                 padding: 20px 0;
                 display: block;
@@ -51,6 +47,7 @@
                 bottom: 10px;
                 font-size: 0.75em;
                 text-align: center;
+            }
         </style>
 	</body>
 	<head>
@@ -58,15 +55,16 @@
 		<meta charset="utf-8" />
 	</head>
 	<body>
-        <div>
+        <div class="container">
             <div class="head-title">
                 Short Circuit
             </div>
-        </div>
-        <div>
             <div class="register-btn">
                 Register
             </div>
+        </div>
+        <div>
+            
         </div>
         <div>
             <div class="footer">

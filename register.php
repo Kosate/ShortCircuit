@@ -80,6 +80,7 @@
                 text-align: center;
                 font-weight: 100;
                 cursor: pointer;
+                margin-bottom: 40px;
             }
         </style>
 	</head>

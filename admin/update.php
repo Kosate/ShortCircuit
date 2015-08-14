@@ -25,7 +25,7 @@
 				}
 			}
 		} else if( $_GET['state'] == 'clustering' ) {
-			$current['data'] = $_GET['type'];
+			$current['data'] = md5($_GET['type']);
 		} else {
 			$current['data'] = array();
 			unset($current['data']);	
