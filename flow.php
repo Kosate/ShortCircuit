@@ -3,19 +3,7 @@
     require('connect.php');
 
     $content = [];
-    $colorSet = [
-        "#e52416",
-        "#ea1c62",
-        "#600a6f",
-        "#42109b",
-        "#2196F3",
-        "#068479",
-        "#569123",
-        "#ffc73a",
-        "#ff8912",
-        "#4d1c0a",
-        "#f849c2"
-    ];
+    require_once('data/color.php');
     
     function getColor($id) {
         global $colorSet;

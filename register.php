@@ -92,7 +92,7 @@
 
             </div>
             <div class="enter-btn">
-                Shot !!!
+                Short !!!
             </div>
         </div>
         <div>

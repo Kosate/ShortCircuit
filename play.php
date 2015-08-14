@@ -3,6 +3,7 @@
 
 
     require("connect.php");
+    require_once('data/color.php');
 
     function redirectToHome() {
         header("Location: index.php");
@@ -54,7 +55,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                font-size: 4em;
+                font-size: 6rem;
                 font-weight: 300;
             }
         </style>
@@ -68,47 +69,45 @@
         <script>
             
             var intervalHandle;
-            var refreshTime = 10000;
+            var refreshTime = 1000;
             var randomToken = Math.floor(Math.random()*1000);
             var randomScreenInterval;
             var currentData = <?= $q['info'] ?>;
             
-            var colorSet = colorSet = [
-                "#e52416",
-                "#ea1c62",
-                "#600a6f",
-                "#42109b",
-                "#2196F3",
-                "#068479",
-                "#569123",
-                "#ffc73a",
-                "#ff8912",
-                "#4d1c0a",
-                "#f849c2"
-            ];
+            var colorSet = <?= json_encode($colorSet) ?>;
             
             function short(obj) {
                 clearInterval(randomScreenInterval);
                 
+                var isBackgroundSetter = false;
+                var isTextSettter = false;
+                
                 if( obj.state == 'random' ) {
+                    isBackgroundSetter = true;
                     randomScreenInterval = setInterval(
                         function() {
                             $('body').css('background', colorSet[Math.floor(Math.random()*colorSet.length)]);    
                         },
                         100  
                     );
-                } else {
-                    $('body').css('background','#fdfdfd');
                 }
                 
-                $('#show-text').html('');
-                
                 if( obj.state == 'waiting' ) {
-                    $('#show-text').html('กรุณาอย่าเพิ่งปิดหน้านี้<br>แต่สามารถ Sleep ไว้ชั่วคราวได้ หากคุณใช้โทรศัพท์');
+                    isTextSettter = true;
+                    var url = window.location.href;
+                    var imgURL = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl='+url;
+                    $('#show-text').html(
+                        '<img src="'+imgURL+'" width="300" height="300" />' +
+                        '<div style="font-size: 1rem;">คุณสามารถเชื่อมต่อกับมือถือได้ผ่าน QR Code นี้</div>' +
+                        '<div style="font-size: 2rem; margin-top: 15px;">กรุณาอย่าเพิ่งปิดหน้านี้<br>แต่สามารถ Sleep ไว้ชั่วคราวได้ หากคุณใช้โทรศัพท์</div>'
+                    );
                 }
                 
                 if( obj.state == 'admin' ) {
                     if( obj.data.type == 'text' || obj.data.type == 'html' ) {
+                        
+                        isTextSettter = true;
+                        
                         if( obj.data.type == 'text' )
                             $('#show-text').text( obj.data.text[ randomToken % obj.data.text.length ] );
                         else
@@ -116,17 +115,25 @@
                         
                         if( obj.data.fontColor != null )
                             $('#show-text').css('color', obj.data.fontColor[ randomToken % obj.data.fontColor.length ] );
-                        if( obj.data.backgroundColor != null )
+                        
+                        if( obj.data.backgroundColor != null ) {
+                            isBackgroundSetter = true;
                             $('body').css('background', obj.data.backgroundColor[ randomToken % obj.data.backgroundColor.length ] );
+                        }
                     }
-                } else {
-                    $('body').css('background','#fdfdfd');
                 }
                 
                 if( obj.state == 'clustering' ) {
+                    isBackgroundSetter = true;
                     $('body').css('background', currentData['_color'][obj.data] );
-                } else {
+                }
+                
+                if( !isBackgroundSetter ) {
                     $('body').css('background', '#fdfdfd');
+                    $('#show-text').css('color', '#111');
+                }
+                if( !isTextSettter ) {
+                    $('#show-text').html('');
                 }
             }
             

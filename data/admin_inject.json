@@ -3,7 +3,7 @@
 		"name" : "1",
 		"data" : {
 			"type" : "html",
-			"text" : ["<span style='font-size:4em;'>1</span>"]
+			"text" : ["<span style='font-size:10rem;'>1</span>"]
 		}
 	},
 	{
