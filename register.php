@@ -98,7 +98,7 @@
         </div>
         <div>
 		</div>
-        
+
         <div class="modal fade" id="alerter">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -114,7 +114,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
-        
+
         <div class="modal fade" id="confirm">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -138,7 +138,7 @@
 
             var config = {};
             var curData = <?= $curData ?>;
-            
+
             function show_alerter( txt, callback ) {
                 if( typeof callback != "undefined" && callback != null ) {
                     $("#alerter button").click( callback );
@@ -146,7 +146,7 @@
                 $("#alerter .modal-body").html(txt);
                 $("#alerter").modal('show');
             }
-            
+
             function show_confirm( txt, callback ) {
                 $("#confirm .modal-footer .btn-primary").click( callback );
                 $("#confirm .modal-body").html(txt);
@@ -203,7 +203,7 @@
                                 if( res[i].type == 'choice' ) {
                                     $('#form_' + res[i].name)
                                         .find('option[name="'+curData[res[i].name]+'"]')
-                                        .attr('selected','selected');   
+                                        .attr('selected','selected');
                                 } else {
                                     $("#form_" + res[i].name).val( curData[res[i].name] );
                                 }
@@ -223,13 +223,13 @@
                     if( isEmpty ) {
                         show_alerter("กรุณากรอกข้อมูลให้ครบถ้วน");
                     } else {
-                        
+
                         show_confirm(
                           'คุณต้องการจะยืนยันข้อมูลนี้ใช่หรือไม่',
                           function() {
-                            
+
                             $('#confirm').modal('hide');
-                              
+
                             var rawData = {};
                             for( var i = 0; i < config.length; i++ ) {
                                 if( config[i].type == 'choice' ) {
@@ -240,8 +240,8 @@
                                     rawData[config[i].name] = $("#form_" + config[i].name).val();
                                 }
                             }
-    
-    
+
+
                             $.ajax({
                                 url : "flow.php",
                                 data : "type=update_each_info&data="+encodeURIComponent(JSON.stringify(rawData)),
@@ -259,7 +259,7 @@
                                     show_alerter("อินเตอร์เน็ตมีปัญหา");
                                 }
                             });
-                          }  
+                          }
                         );
                     }
                 });

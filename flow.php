@@ -2,9 +2,9 @@
     session_start();
     require('connect.php');
 
-    $content = [];
+    $content = array();
     require_once('data/color.php');
-    
+
     function getColor($id) {
         global $colorSet;
         return $colorSet[ intval($id) % count($colorSet) ];
@@ -32,8 +32,8 @@
             die();
 
         } else if( $_GET['type'] == 'next_id' ) {
-            
-            
+
+
             $oldHash = getHashStorage();
             if( $oldHash != "-1" ) {
                 $q = $connect->query("select hash from shortcircuit_each_info where hash='$oldHash'");
@@ -41,7 +41,7 @@
                     die(json_encode(array('id' => $oldHash)));
                 }
             }
-            
+
             $q = $connect->query("select count(*) from shortcircuit_each_info");
             $q = $q->fetch_assoc();
             $q = intval( $q['count(*)'] ) + 1;
@@ -53,12 +53,13 @@
         } else if( $_GET['type'] == 'update_each_info' ) {
             $hash = getHashStorage();
             if( $hash == "-1" ) die("-1");
-            
+
+            var_dump(json_decode($_GET['data'], true));
             if( $data = json_decode($_GET['data'], true) ) {
                 getFileContent('./data/structure.json');
                 $clustering = $content;
                 $data['_color'] = array();
-                
+
                 $i = 0;
                 foreach( $data as $key => $value ) {
                     $i++;
@@ -77,8 +78,10 @@
                     }
                 }
                 if( $connect->query("update shortcircuit_each_info set info='".json_encode($data, JSON_UNESCAPED_UNICODE)."' where hash='$hash'") ) {
-                    die("ok");
-                }    
+                  die("ok");
+                } else {
+                  die( $connect->error() );
+                }
             }
         }
     }
